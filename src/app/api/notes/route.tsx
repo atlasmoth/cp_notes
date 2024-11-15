@@ -98,9 +98,32 @@ export async function GET(request: Request) {
 }
 
 export async function PUT(request: Request) {
-  const body = await request.json();
   try {
-    return NextResponse.json({}, { status: 200 });
+    const body = await request.json();
+
+    const validatedData = CreateNoteFormSchema.parse(body);
+    const recordData = {
+      ...validatedData,
+    };
+
+    const { error } = await db
+      .from("notes")
+      .upsert({ ...recordData, id: body.id })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error inserting data:", error);
+      return NextResponse.json(
+        { message: "Error creating record", error: error.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Record created successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(

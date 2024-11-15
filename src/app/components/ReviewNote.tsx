@@ -3,16 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { Note } from "../utils/schemas";
 import { MdDownload } from "react-icons/md";
 
 export default function ReviewNote() {
-  const [loading, setLoading] = useState(false);
   const [note, setNote] = useState<Note | null>(null);
 
   const { noteId } = useParams<{ noteId: string }>();
@@ -84,7 +80,9 @@ export default function ReviewNote() {
               ))}
             </div>
 
-            <button className="connect-wallet">Edit note</button>
+            <Link href={`/edit/${note.id}`}>
+              <button className="connect-wallet">Edit note</button>
+            </Link>
           </div>
         </section>
       )}
