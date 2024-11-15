@@ -1,0 +1,471 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "GeistMono-Black";
+  src: url("fonts/GeistMono-Black.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-SemiBold";
+  src: url("fonts/GeistMono-SemiBold.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-Bold";
+  src: url("fonts/GeistMono-Bold.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-Thin";
+  src: url("fonts/GeistMono-Thin.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-Light";
+  src: url("fonts/GeistMono-Light.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-UltraBlack";
+  src: url("fonts/GeistMono-UltraBlack.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-Medium";
+  src: url("fonts/GeistMono-Medium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-UltraLight";
+  src: url("fonts/GeistMono-UltraLight.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono-Regular";
+  src: url("fonts/GeistMono-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMonoVariableVF";
+  src: url("fonts/GeistMonoVariableVF.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+:root {
+  min-height: 100%;
+}
+body {
+  min-height: 100%;
+  color: #fff;
+  font-weight: 500;
+  font-family: "GeistMono-Black", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.main-header {
+  background-image: url("https://github.com/atlasmoth/cbl-assets/blob/6e2aa3a01ac99a1bacda2777883ce7bbbf9eee12/bg.png?raw=true");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.main-header .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2.5rem;
+  padding-bottom: 8rem;
+}
+.main-header .container img:first-of-type {
+  margin-bottom: 6rem;
+}
+
+.main-section .jersey {
+  display: flex;
+  justify-content: center;
+  margin-top: -6rem;
+}
+
+p {
+  line-height: 1.7;
+}
+
+.main-section .annotation {
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.main-section .annotation p {
+  font-size: 1rem;
+}
+
+.main-section .annotation h2 {
+  font-size: 3.5rem;
+}
+
+.main-section .annotation img {
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+}
+button.connect-wallet {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #2f2f2f;
+  display: block;
+  border-radius: 20px;
+  width: 100%;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+button.connect-wallet-sec {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #2f2f2f;
+  border-radius: 20px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+.last {
+  padding-bottom: 2rem;
+}
+button.connect-wallet-sec:hover,
+button.connect-wallet-sec:active,
+button.connect-wallet:hover,
+button.connect-wallet:active {
+  box-shadow: inset 10000px 10000px 10px rgba(255, 255, 255, 0.1);
+}
+
+.order-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+@media only screen and (min-width: 600px) {
+  .order-modal {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .order-modal .backdrop {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+  }
+}
+.order-modal .backdrop {
+  background-color: #141414;
+  padding: 1rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 80%;
+  overflow-y: scroll;
+}
+
+.order-modal .backdrop img {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+button.connect-wallet-options {
+  width: 100%;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #2f2f2f;
+  display: block;
+  border-radius: 20px;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.other-header-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+.other-header-nav a ~ * {
+  margin-left: 1.2rem;
+}
+.other-header {
+  background-image: url("https://github.com/atlasmoth/cbl-assets/blob/6e2aa3a01ac99a1bacda2777883ce7bbbf9eee12/drop.png?raw=true");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.main-section.verify-section .jersey {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.linear-gradient {
+  background-image: linear-gradient(to top, #131313, #282828 70%);
+}
+
+.collection {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.collection-item img {
+  margin-right: 1rem;
+}
+
+.witness-list-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.witness-list-item {
+  padding-bottom: 0.5rem;
+  border-bottom: 7px solid transparent;
+  z-index: 100;
+  color: #ffffff80;
+}
+.witness-list-item.active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.black-line {
+  position: relative;
+}
+
+.main-black-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 7px;
+  background-color: #000;
+  bottom: 0;
+}
+
+.address-holder {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 1px solid #ffffff1a;
+  border-bottom: 1px solid #ffffff1a;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+  margin-top: -1rem;
+}
+
+.address-holder .container {
+  display: flex;
+  align-items: center;
+}
+.address-holder .container img {
+  margin-right: 1rem;
+}
+
+.size {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.size p {
+  flex-basis: 80px;
+  flex-shrink: 0;
+}
+.size .sizes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  margin-left: 1rem;
+}
+
+form {
+  padding-bottom: 1rem;
+}
+
+.upload-button {
+  display: block;
+  margin-bottom: 1rem;
+  width: 100%;
+  background-color: transparent;
+  color: #c9c9c9;
+  border: 1px dashed #ffffff1a;
+  outline: 0px;
+  padding: 1rem;
+  border-radius: 10px;
+}
+input,
+textarea {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #ffffff1a;
+  outline: 0px;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+  color: #8b8b8b;
+}
+.select {
+  position: relative;
+  background-color: transparent;
+  border: 1px solid #ffffff1a;
+  padding: 1rem;
+  border-radius: 10px;
+  color: #c9c9c9;
+  display: flex;
+  align-items: center;
+  padding-right: 30px;
+}
+.select::after {
+  content: "↓";
+  position: absolute;
+  right: 12px;
+}
+.select select {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.shipping > p {
+  margin-bottom: 1rem;
+}
+.shipping-item {
+  color: #c9c9c9;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.shipping-item img {
+  margin-right: 1.5rem;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.total p + p {
+  color: #c9c9c9;
+}
+
+.hide {
+  overflow: hidden;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 1rem;
+}
+
+.mini-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  grid-gap: 1rem;
+}
