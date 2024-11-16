@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { Note } from "../utils/schemas";
 import { MdDownload } from "react-icons/md";
+import { getFromDb } from "../utils/storage";
 
 export default function ReviewNote() {
   const [note, setNote] = useState<Note | null>(null);
@@ -15,10 +15,9 @@ export default function ReviewNote() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/notes?id=${noteId}`, {
-        headers: { "Content-Type": "application/json" },
-      });
-      setNote(res.data.data);
+      const res = getFromDb(noteId);
+
+      setNote(res);
     };
     fetchData().catch((e) => {
       toast.error(e.message);

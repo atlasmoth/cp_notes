@@ -3,17 +3,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
-import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { CreateNoteFormSchema, Note } from "../utils/schemas";
+import { useLogin } from "../hooks/useAuth";
+import { addToDb } from "../utils/storage";
 
 type FormData = z.infer<typeof CreateNoteFormSchema>;
 
 export default function EditNote({ note }: { note: Note }) {
+  const { profile, login, logout } = useLogin();
   const router = useRouter();
   const {
     register,
@@ -30,22 +32,22 @@ export default function EditNote({ note }: { note: Note }) {
       description: note.description,
     },
   });
-
+  const images = watch("images") || [];
+  const [loadingImage, setLoadingImage] = useState(false);
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (data: FormData) => {
+    if (loading) return;
+    if (!profile) return;
     try {
       setLoading(true);
-      await axios.put(
-        `/api/notes`,
-        {
-          ...data,
-          id: note.id,
-          //  add identification method
-        },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      addToDb(note.id, {
+        ...data,
+        creator: profile.sub,
+        id: note.id,
+      });
 
       setLoading(false);
-      console.log("This is getting here");
+
       router.push(`/notes/${note.id}`);
     } catch (error: any) {
       setLoading(false);
@@ -53,13 +55,24 @@ export default function EditNote({ note }: { note: Note }) {
     }
   };
 
-  const images = watch("images") || [];
-  const [loadingImage, setLoadingImage] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   return (
     <section className="main-section verify-section">
       <div className="container pt-10">
+        <button
+          className="connect-wallet-sec text-sm flex items-center"
+          onClick={() => {
+            if (!profile) {
+              return login();
+            }
+            logout();
+          }}
+        >
+          {profile ? (
+            <span className="mr-2">{profile.name}</span>
+          ) : (
+            <span className="mr-2">Log in</span>
+          )}
+        </button>
         <form onSubmit={handleSubmit(onSubmit)}>
           <p className="text-xs mb-2 uppercase text-[rgba(255,255,255,0.6)] mt-5">
             title
@@ -91,7 +104,7 @@ export default function EditNote({ note }: { note: Note }) {
           )}
 
           <p className="text-xs uppercase text-[rgba(255,255,255,0.6)] mt-5 mb-2">
-            Images (at most 4)
+            Images
           </p>
 
           <Controller
@@ -141,23 +154,20 @@ export default function EditNote({ note }: { note: Note }) {
                           const fileArray = Array.from(e?.target?.files || []);
                           if (fileArray.length < 1) return;
                           const file = fileArray[0];
-                          const formData = new FormData();
-                          formData.append("file", file);
-                          formData.append(
-                            "upload_preset",
-                            process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_PRESET!
-                          );
-                          const res = await axios.post(
-                            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                            formData
-                          );
-                          field.onChange([...images, res.data.secure_url]);
+
+                          const reader = new FileReader();
+                          reader.readAsDataURL(file);
+                          reader.onloadend = function () {
+                            field.onChange(
+                              Array.from(new Set([...images, reader.result]))
+                            );
+                          };
                         } catch (error) {
                         } finally {
                           setLoadingImage(false);
                         }
                       }}
-                      disabled={loadingImage || images.length > 3}
+                      disabled={loadingImage}
                       type="file"
                       className="absolute top-0 bottom-0 left-0 right-0 z-10 mb-0 opacity-0"
                       placeholder="Add image"
@@ -175,6 +185,11 @@ export default function EditNote({ note }: { note: Note }) {
           )}
 
           <div className="mt-10"></div>
+          {!profile ? (
+            <p className="text-red-300 font-thin text-sm mb-2">
+              Please log in to edit note
+            </p>
+          ) : null}
 
           <button className="connect-wallet  mb-12">
             {loading ? "Loading..." : "Continue"}

@@ -4,57 +4,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Note } from "../utils/schemas";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { fetchAllFromDb } from "../utils/storage";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [cursor, setCursor] = useState("");
-
-  const fetchNotes = async () => {
-    let path = `/api/notes`;
-    if (cursor.length > 0) {
-      path += "?lastTimestamp=" + cursor;
-    }
-
-    const res = await axios.get(path, {
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (
-      Array.isArray(res.data.data) &&
-      res.data.data.length > 0 &&
-      res.data.data[res.data.data.length - 1].created_at
-    ) {
-      const tempCursor = res.data.data[res.data.data.length - 1].created_at;
-      setCursor(new Date(tempCursor).toISOString());
-    }
-
-    return res.data.data;
-  };
-
-  const loadMore = () => {
-    setLoading(true);
-    fetchNotes()
-      .then((r) => {
-        setNotes((t) => [...t, ...r]);
-      })
-      .catch(console.log)
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchNotes()
-      .then((d) => {
-        setNotes(d);
-      })
-      .catch(console.log)
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const [notes, setNotes] = useState<Note[]>(() => {
+    return fetchAllFromDb() as Note[];
+  });
 
   return (
     <main>
@@ -121,18 +77,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-      {loading ? (
-        <p className="py-[100px] text-center">Loading...</p>
-      ) : (
-        <p
-          className="py-[100px] text-center cursor-pointer"
-          onClick={() => {
-            loadMore();
-          }}
-        >
-          Load more{" "}
-        </p>
-      )}
     </main>
   );
 }

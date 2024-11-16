@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Note } from "@/app/utils/schemas";
 import Link from "next/link";
+import { getFromDb } from "@/app/utils/storage";
 
 const EditNote = dynamic(() => import("@/app/components/EditNote"), {
   ssr: false,
@@ -21,10 +22,9 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/notes?id=${noteId}`, {
-        headers: { "Content-Type": "application/json" },
-      });
-      setNote(res.data.data);
+      const res = getFromDb(noteId);
+
+      setNote(res);
     };
     fetchData().catch((e) => {
       toast.error(e.message);

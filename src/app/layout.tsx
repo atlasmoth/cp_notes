@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "./hooks/useAuth";
 
 export const metadata: Metadata = {
   title: "Notes App",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased linear-gradient`}>{children}</body>
+      <body className={`antialiased linear-gradient`}>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

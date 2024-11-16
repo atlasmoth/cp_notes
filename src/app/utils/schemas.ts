@@ -6,10 +6,7 @@ export const CreateNoteFormSchema = z.object({
     .string()
     .min(1, { message: "Description is required" })
     .min(1, { message: "Description must be at least 1 character" }),
-  images: z
-    .array(z.string())
-    .min(1, { message: "At least one image is required" })
-    .max(4, { message: "At most 4 images are allowed" }),
+  images: z.array(z.string()).optional(),
 });
 
 export interface Note {
