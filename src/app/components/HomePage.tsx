@@ -5,12 +5,21 @@ import { useEffect, useState } from "react";
 import { Note } from "../utils/schemas";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { fetchAllFromDb } from "../utils/storage";
+import { redirect } from "next/navigation";
 
 export default function HomePage() {
   const [loading, setLoading] = useState(true);
-  const [notes, setNotes] = useState<Note[]>(() => {
-    return fetchAllFromDb() as Note[];
-  });
+  const [notes, setNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    const tempNotes = fetchAllFromDb() as Note[];
+
+    if (!tempNotes || tempNotes.length < 1) {
+      redirect("/create");
+    } else {
+      setNotes(tempNotes);
+    }
+  }, []);
 
   return (
     <main>
@@ -32,7 +41,7 @@ export default function HomePage() {
           <div className="container">
             <div className="witness-list-items">
               <div className="witness-list-item active">
-                <p>All events</p>
+                <p>All notes</p>
               </div>
             </div>
           </div>
